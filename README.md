@@ -11,7 +11,7 @@ core), and implicitly "collect" the ordered results into a vector
 
 Build via `cargo build --release`, then run:
 
-<script id="asciicast-353428" src="https://asciinema.org/a/353428.js" data-autoplay="1" data-loop="1" async></script>
+[![asciicast](img/fja.gif)](https://asciinema.org/a/353428?autoplay=1&loop=1)
 
 This command spawns 10 tasks that respond immediately with the `sleeping` message and then begin
 sleeping concurrently in a [non-blocking fashion][nbf] via `async_std::task::sleep` to *simulate* a
