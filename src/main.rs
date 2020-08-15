@@ -69,15 +69,16 @@ anything here.*
 
 */
 async fn task(n: u64) -> (u64, u64) {
+    sleep_random(1, 10, n).await
+}
 
-    // Sleep for a random number of seconds
+/// Non-blocking sleep for a random number of seconds between `min` and `max` (inclusive)
+async fn sleep_random(min: u64, max: u64, n: u64) -> (u64, u64) {
     let mut rng = rand::thread_rng();
-    let secs: u64 = rng.gen_range(1, 11); // 1-10
+    let secs: u64 = rng.gen_range(min, max + 1);
     println!("task {} sleeping {}", n, secs);
     sleep(Duration::from_secs(secs)).await;
     println!("task {} slept {}", n, secs);
-
-    // Return result
     (n, secs)
 }
 
@@ -141,10 +142,7 @@ Usage: `futures-join-all [OPTIONS] N`
         // Option 4: Use an async closure (currently unstable)
         // (https://github.com/rust-lang/rust/issues/62290) instead of an async function
         let results = block_on(async { join_all((1..=num).map(|x| (async |n| {
-            println!("sleeping {}", n);
-            sleep(Duration::from_secs(n)).await;
-            println!("slept {}", n);
-            n
+            sleep_random(1, 10, n).await
         }).())).await });
         */
 
